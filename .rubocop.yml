@@ -15,6 +15,7 @@ AllCops:
     - node_modules/**/*
     - Gemfile
     - test/**/*
+    - vendor/**/*
 
 HasAndBelongsToMany:
   Enabled: false

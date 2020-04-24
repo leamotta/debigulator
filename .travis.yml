@@ -1,0 +1,18 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.7.0
+
+services:
+  - postgresql
+
+before_script:
+  - cp config/database.travis.yml config/database.yml
+  - psql -c "CREATE USER \"debigulator\" WITH PASSWORD 'debigulator';" -U postgres
+  - psql -c "DROP DATABASE IF EXISTS \"debigulator_test\";" -U postgres
+  - psql -c "CREATE DATABASE \"debigulator_test\" ENCODING 'utf8';" -U postgres
+  - bundle exec rake db:migrate
+
+script:
+  - bundle exec rubocop
+  # - bundle exec rspec spec -fd
