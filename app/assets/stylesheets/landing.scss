@@ -1,0 +1,69 @@
+// Place all the styles related to the landing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.landing {
+  background-color: #107DC0;
+  height: 100%;
+
+  .title, .subtitle {
+    align-items: center;
+    color: #FFD90F;
+    display: flex;
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 75px;
+    height: 25%;
+  }
+
+  .subtitle {
+    font-size: 50px;
+    height: 10%;
+  }
+
+  .debigulator-image {
+    display: flex;
+    height: 20%;
+    justify-content: center;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .inputs {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    form {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    input[type=text] { 
+      align-items: center;
+      background: #fff;
+      border-radius: 8px 8px 8px 8px;
+      border: 1px solid #d3d4d7;
+      color: #36383b;
+      display: flex;
+      font-family: inherit;
+      font-size: 20px;
+      height: 60px;
+      justify-content: center;
+      padding: 0 20px;
+      width: 30%;
+    }
+
+    input[type=image] {
+      height: 60px;
+      margin: 20px;
+    }
+  }
+}
+
