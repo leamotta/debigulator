@@ -6,8 +6,16 @@
 
   .inputs
     = form_tag('/links', method: 'create')
-      = text_field_tag :url, nil, placeholder: 'Your URL'
+      = text_field_tag :url, nil, placeholder: 'Your URL', required: true
       = image_submit_tag 'frink.png', class: 'submit'
   
   .debigulator-image
     = image_tag('debigulator.png')
+
+  - if @view_data['code']
+    .result
+      = Rails.application.secrets[:base_url] + @view_data['code']
+
+  - if @view_data['errors']
+    .errors
+      = @view_data['errors']

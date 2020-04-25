@@ -10,6 +10,7 @@
     align-items: center;
     color: #FFD90F;
     display: flex;
+    font-family: simpsonfontregular;
     justify-content: center;
   }
 
@@ -64,6 +65,22 @@
       height: 60px;
       margin: 20px;
     }
+  }
+
+  .result, .errors {
+    align-items: center;
+    display: flex;
+    font-size: 75px;
+    height: 25%;
+    justify-content: center;
+  }
+
+  .result {
+    color: #FFD90F;
+  }
+
+  .errors {
+    color:#ff0000;
   }
 }
 

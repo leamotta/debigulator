@@ -31,6 +31,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Enable Slim templates
 gem 'slim-rails', '~> 3.2'
 
+# Common interface for business logic
+gem 'interactor', '~> 3.1', '>= 3.1.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -38,6 +41,8 @@ group :development, :test do
   gem 'faker', '~> 2.11'
   # Create objects for tests
   gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
+  # Load env variables
+  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
 end
 
 group :development do
