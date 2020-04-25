@@ -1,3 +1,18 @@
 class LinksController < ApplicationController
-  def create; end
+  def create
+    result = ::Links::Create.call(url: url)
+    redirect_params = if result.success?
+                        { code: result.link.code }
+                      else
+                        { errors: result.errors }
+                      end
+
+    redirect_to controller: 'landing', action: 'index', params: redirect_params
+  end
+
+  private
+
+  def url
+    params.require(:url)
+  end
 end
