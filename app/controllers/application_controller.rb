@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
   def initialize_view_data
     @view_data = {}
   end
+
+  def not_found
+    raise ActionController::RoutingError, 'Not Found'
+  end
 end
