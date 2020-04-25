@@ -13,3 +13,34 @@
  *= require_tree .
  *= require_self
  */
+
+ @font-face {
+  font-family: 'simpsonfontregular';
+  src: url('simpsonfont_demo-webfont.woff2') format('woff2'),
+       url('simpsonfont_demo-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  font-family: simpsonfontregular;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-input-placeholder {
+  font-family: simpsonfontregular;
+}
+
+::-ms-input-placeholder {
+  font-family: simpsonfontregular;
+}
+
+::-moz-placeholder {
+  font-family: simpsonfontregular;
+}
+
+::-moz-placeholder {
+  font-family: simpsonfontregular;
+}

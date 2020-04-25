@@ -1,0 +1,13 @@
+.landing
+  .title
+    | Welcome to the Debigulator!
+  .subtitle
+    | Enter the URL you want to debig
+
+  .inputs
+    = form_tag('/links', method: 'create')
+      = text_field_tag :url, nil, placeholder: 'Your URL'
+      = image_submit_tag 'frink.png', class: 'submit'
+  
+  .debigulator-image
+    = image_tag('debigulator.png')
