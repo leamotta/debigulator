@@ -10,6 +10,16 @@ class LinksController < ApplicationController
     redirect_to controller: 'landing', action: 'index', params: redirect_params
   end
 
+  def redirect
+    link = Link.find_by(code: params[:code])
+
+    if link
+      redirect_to link.destination
+    else
+      not_found
+    end
+  end
+
   private
 
   def url
