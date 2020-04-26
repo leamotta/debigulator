@@ -34,6 +34,12 @@ gem 'slim-rails', '~> 3.2'
 # Common interface for business logic
 gem 'interactor', '~> 3.1', '>= 3.1.2'
 
+# API versioning
+gem 'versionist', '~> 2.0', '>= 2.0.1'
+
+# Serialize models
+gem 'fast_jsonapi', '~> 1.5'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
