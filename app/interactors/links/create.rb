@@ -5,10 +5,17 @@ module Links
 
     delegate :url, to: :context
 
+    # Generates a link.
+    # If there is a collision, we try again with a different random number.
+    # Change this logic if the platform scales up.
     def call
-      context.link = Link.new(code: code, destination: url)
+      save_new_link
 
-      context.fail!(errors: link.errors.messages) unless link.save
+      return if link.persisted?
+
+      save_new_link if link.already_taken?(:code)
+
+      context.fail!(errors: link.errors.messages) unless link.persisted?
     end
 
     private
@@ -17,8 +24,13 @@ module Links
       context.link
     end
 
+    def save_new_link
+      context.link = Link.new(code: code, destination: url)
+      link.save
+    end
+
     def code
-      @code ||= Base62::Translator.encode(rand(MAX_NUMBER))
+      Base62::Translator.encode(rand(MAX_NUMBER))
     end
   end
 end
