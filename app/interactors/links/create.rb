@@ -5,6 +5,10 @@ module Links
 
     delegate :url, to: :context
 
+    after do
+      cache_link
+    end
+
     # Generates a link.
     # If there is a collision, we try again with a different random number.
     # Change this logic if the platform scales up.
@@ -31,6 +35,10 @@ module Links
 
     def code
       Base62::Translator.encode(rand(MAX_NUMBER))
+    end
+
+    def cache_link
+      Cache.write(link.code, url, 60.seconds)
     end
   end
 end
