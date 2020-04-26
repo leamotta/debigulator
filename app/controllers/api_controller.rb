@@ -24,5 +24,16 @@ class ApiController < ActionController::Base
     render json: { errors: errors }, status: :bad_request
   end
 
-  def authenticate_request; end
+  def unauthorized(errors)
+    render json: { errors: errors }, status: :unauthorized
+  end
+
+  def authenticate_request
+    unauthorized('Invalid token') unless valid_token
+  end
+
+  # Move this to a PORO if it grows
+  def valid_token
+    Partner.exists?(token: request.headers['Auth-Key'])
+  end
 end
