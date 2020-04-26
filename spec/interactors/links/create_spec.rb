@@ -11,6 +11,7 @@ describe Links::Create do
 
     before do
       allow(base62_poro).to receive(:encode).and_return(code)
+      allow(Cache).to receive(:write).and_return('OK')
     end
 
     context 'when receiving a correct url' do
@@ -31,6 +32,13 @@ describe Links::Create do
       it 'calls the base62 encoder once' do
         creation
         expect(base62_poro).to have_received(:encode).exactly(1).times
+      end
+
+      it 'calls a write on cache' do
+        creation
+        expect(Cache).to have_received(:write).with(
+          creation.link.code, creation.link.destination, 60.seconds
+        )
       end
     end
 

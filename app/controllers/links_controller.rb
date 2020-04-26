@@ -11,10 +11,10 @@ class LinksController < ApplicationController
   end
 
   def redirect
-    link = Link.find_by(code: params[:code])
+    result = ::Links::Redirect.call(code: params[:code])
 
-    if link
-      redirect_to link.destination
+    if result.success?
+      redirect_to result.destination
     else
       not_found
     end
