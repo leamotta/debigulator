@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Links::Create do
   describe '#call' do
-    subject(:create) do
+    subject(:creation) do
       described_class.call(url: url)
     end
 
@@ -17,20 +17,46 @@ describe Links::Create do
       let(:url) { Faker::Internet.url }
 
       it 'succeeds' do
-        expect(create).to be_a_success
+        expect(creation).to be_a_success
       end
 
-      it 'creates a new link' do
-        expect { create }.to(change(Link, :count).by(1))
+      it 'creations a new link' do
+        expect { creation }.to(change(Link, :count).by(1))
       end
 
       it 'returns a new link' do
-        expect(create.link).to be_an_instance_of(Link)
+        expect(creation.link).to be_an_instance_of(Link)
       end
 
       it 'calls the base62 encoder once' do
-        create
+        creation
         expect(base62_poro).to have_received(:encode).exactly(1).times
+      end
+    end
+
+    context 'when code collisions' do
+      let(:url) { Faker::Internet.url }
+      let!(:link) { create(:link, code: code) }
+
+      before do
+        allow(base62_poro).to receive(:encode).and_return(code, code[0...-1])
+      end
+
+      it 'succeeds' do
+        expect(creation).to be_a_success
+      end
+
+      it 'creations a new link' do
+        expect { creation }.to(change(Link, :count).by(1))
+      end
+
+      it 'returns a new link' do
+        expect(creation.link).to be_an_instance_of(Link)
+      end
+
+      it 'calls the base62 encoder twice' do
+        creation
+        expect(base62_poro).to have_received(:encode).exactly(2).times
       end
     end
 
@@ -38,15 +64,15 @@ describe Links::Create do
       let(:url) { nil }
 
       it 'fails' do
-        expect(create).to be_a_failure
+        expect(creation).to be_a_failure
       end
 
-      it 'does not create a new link' do
-        expect { create }.not_to(change(Link, :count))
+      it 'does not creation a new link' do
+        expect { creation }.not_to(change(Link, :count))
       end
 
       it 'returns the errors' do
-        expect(create.errors).not_to be_empty
+        expect(creation.errors).not_to be_empty
       end
     end
   end
