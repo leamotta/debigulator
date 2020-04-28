@@ -3,14 +3,15 @@ require 'rails_helper'
 describe Links::Create do
   describe '#call' do
     subject(:creation) do
-      described_class.call(url: url)
+      described_class.call(url: url, code_generator: code_generator)
     end
 
     let(:code) { Faker::Lorem.characters(number: 7) }
-    let(:base62_poro) { class_double('Base62::Translator').as_stubbed_const }
+    let(:code_generator) { class_double(generator_class).as_stubbed_const }
+    let(:generator_class) { Faker::Name.first_name }
 
     before do
-      allow(base62_poro).to receive(:encode).and_return(code)
+      allow(code_generator).to receive(:random_string).and_return(code)
       allow(Cache).to receive(:write).and_return('OK')
     end
 
@@ -21,7 +22,7 @@ describe Links::Create do
         expect(creation).to be_a_success
       end
 
-      it 'creations a new link' do
+      it 'creates a new link' do
         expect { creation }.to(change(Link, :count).by(1))
       end
 
@@ -29,9 +30,9 @@ describe Links::Create do
         expect(creation.link).to be_an_instance_of(Link)
       end
 
-      it 'calls the base62 encoder once' do
+      it 'calls the code generator once' do
         creation
-        expect(base62_poro).to have_received(:encode).exactly(1).times
+        expect(code_generator).to have_received(:random_string).exactly(1).times
       end
 
       it 'calls a write on cache' do
@@ -47,14 +48,14 @@ describe Links::Create do
       let!(:link) { create(:link, code: code) }
 
       before do
-        allow(base62_poro).to receive(:encode).and_return(code, code[0...-1])
+        allow(code_generator).to receive(:random_string).and_return(code, code[0...-1])
       end
 
       it 'succeeds' do
         expect(creation).to be_a_success
       end
 
-      it 'creations a new link' do
+      it 'creates a new link' do
         expect { creation }.to(change(Link, :count).by(1))
       end
 
@@ -62,9 +63,9 @@ describe Links::Create do
         expect(creation.link).to be_an_instance_of(Link)
       end
 
-      it 'calls the base62 encoder twice' do
+      it 'calls the code generator twice' do
         creation
-        expect(base62_poro).to have_received(:encode).exactly(2).times
+        expect(code_generator).to have_received(:random_string).exactly(2).times
       end
     end
 

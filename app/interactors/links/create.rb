@@ -1,9 +1,12 @@
 module Links
   class Create
     include Interactor
-    MAX_NUMBER = 3.5216146e+12.to_i # Biggest number that could be converted into 7 base62 chars
 
-    delegate :url, to: :context
+    delegate :url, :code_generator, :link, to: :context
+
+    before do
+      context.code_generator ||= Base62::Generator
+    end
 
     after do
       cache_link
@@ -24,17 +27,13 @@ module Links
 
     private
 
-    def link
-      context.link
-    end
-
     def save_new_link
       context.link = Link.new(code: code, destination: url)
       link.save
     end
 
     def code
-      Base62::Translator.encode(rand(MAX_NUMBER))
+      code_generator.random_string(7)
     end
 
     def cache_link
